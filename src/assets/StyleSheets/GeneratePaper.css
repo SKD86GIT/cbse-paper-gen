@@ -1,0 +1,56 @@
+/* src/pages/GeneratePaper.css */
+
+.config-section {
+  background: #f0f8ff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.paper-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* The White Sheet of Paper */
+.paper-view {
+  background: white;
+  padding: 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 500px;
+  color: black; /* Ensure text is black for printing */
+  font-family: "Times New Roman", serif; /* Professional Font */
+}
+
+.school-header {
+  text-align: center;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.exam-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.question-row {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 1.6;
+}
+
+.question-content {
+  width: 90%;
+}
+
+.question-marks {
+  font-weight: bold;
+  min-width: 30px;
+  text-align: right;
+}

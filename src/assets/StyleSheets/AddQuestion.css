@@ -1,0 +1,17 @@
+.math-preview-box {
+  padding: 15px;
+  background: #f4f4f4;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.preview-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 5px 0;
+}
+
+.preview-content {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
