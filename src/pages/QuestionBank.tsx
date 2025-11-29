@@ -5,6 +5,9 @@ import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import MathText from '../components/MathText'; // Importing our new component
 import { Question } from '../services/questionService';
 import '../assets/StyleSheets/QuestionBank.css';
+import { createOutline, trashOutline } from 'ionicons/icons'; // Import Icons
+import { deleteQuestion } from '../services/questionService'; // Import Delete Logic
+import { IonAlert, IonIcon } from '@ionic/react'; // Import Alert and Icon components
 
 const QuestionBank: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -19,7 +22,8 @@ const QuestionBank: React.FC = () => {
       
       const querySnapshot = await getDocs(q);
       const loadedQuestions = querySnapshot.docs.map(doc => ({
-          ...doc.data()
+        id: doc.id,    // <--- CAPTURE THE ID HERE  
+        ...doc.data()
       })) as Question[];
 
       setQuestions(loadedQuestions);
@@ -34,6 +38,19 @@ const QuestionBank: React.FC = () => {
   useEffect(() => {
     loadQuestions();
   }, []);
+
+  const [questionToDelete, setQuestionToDelete] = useState<string | null>(null);
+
+  const handleDelete = async () => {
+    if (questionToDelete) {
+      const success = await deleteQuestion(questionToDelete);
+      if (success) {
+        // Remove it from the local list so it disappears instantly
+        setQuestions(questions.filter(q => q.id !== questionToDelete));
+      }
+      setQuestionToDelete(null); // Close alert
+    }
+  };
 
   return (
     <IonPage>
@@ -74,10 +91,35 @@ const QuestionBank: React.FC = () => {
                     Unit: {q.chapter}
                   </p>
                 </IonLabel>
+                
+                <IonButtons slot="end" style={{alignSelf: 'flex-start', marginTop: '10px', cursor: 'pointer', gap: '10px'}}>
+                  
+                  {/* Edit Button (We will wire this up next) */}
+                  <IonButtons color="medium">
+                    <IonIcon icon={createOutline} />
+                  </IonButtons>
+
+                  {/* Delete Button */}
+                  <IonButtons color="danger" onClick={() => setQuestionToDelete(q.id!)}>
+                    <IonIcon icon={trashOutline} />
+                  </IonButtons>
+
+                </IonButtons>
+              
               </IonItem>
             ))}
           </IonList>
         )}
+        <IonAlert
+          isOpen={!!questionToDelete}
+          onDidDismiss={() => setQuestionToDelete(null)}
+          header="Confirm Delete"
+          message="Are you sure you want to delete this question? This cannot be undone."
+          buttons={[
+            { text: 'Cancel', role: 'cancel', handler: () => setQuestionToDelete(null) },
+            { text: 'Delete', role: 'destructive', handler: handleDelete }
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption, IonTextarea, IonButton, IonButtons, IonBackButton, IonToast } from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
-import { saveQuestion, Question } from '../services/questionService';
+import { saveQuestion, getQuestionById, updateQuestion, Question } from '../services/questionService';
 import 'katex/dist/katex.min.css'; // Import Math CSS
 import { BlockMath, InlineMath } from 'react-katex'; // Component to show Math
 import '../assets/StyleSheets/AddQuestion.css';
@@ -75,11 +77,45 @@ const AddQuestion: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit, (errors) => console.log("Validation Errors:", errors))}>
           
           {/* Subject Selection */}
-          <IonItem>
-            <IonSelect placeholder="Select Subject" {...register("subject", { required: true })}>
-              <IonSelectOption value="Physics">Physics</IonSelectOption>
-              <IonSelectOption value="Chemistry">Chemistry</IonSelectOption>
-              <IonSelectOption value="Maths">Maths</IonSelectOption>
+          <IonItem className='ion-item'>
+            <IonSelect 
+              interface="popover" /* <--- CHANGE THIS */
+              placeholder="Select Subject" 
+              {...register("subject", { required: true })}
+            >
+              {/* === GROUP L: LANGUAGES === */}
+              <IonSelectOption value="" disabled className="group-header">
+                Languages (Group-L)
+              </IonSelectOption>
+              <IonSelectOption value="English">English</IonSelectOption>
+              <IonSelectOption value="English Core">English CORE (301)</IonSelectOption>
+              <IonSelectOption value="English Language and Literature">English Language and Literature (184)</IonSelectOption>
+              <IonSelectOption value="Hindi">Hindi</IonSelectOption>
+              <IonSelectOption value="Hindi Core">Hindi CORE (302)</IonSelectOption>
+              <IonSelectOption value="Hindi Course-A">Hindi Course-A (002)</IonSelectOption>
+              <IonSelectOption value="Hindi Course-B">Hindi Course-B (085)</IonSelectOption>
+              <IonSelectOption value="Sanskrit">Sanskrit</IonSelectOption>
+
+              {/* === GROUP A1: MAIN SUBJECTS === */}
+              <IonSelectOption value="" disabled className="group-header">
+                Main Subjects
+              </IonSelectOption>
+              <IonSelectOption value="Mathematics">Mathematics (041)</IonSelectOption>
+              <IonSelectOption value="Applied Mathematics">Applied Mathematics (241)</IonSelectOption>
+              <IonSelectOption value="Mathematics Standard">Mathematics Standard (041)</IonSelectOption>
+              <IonSelectOption value="Mathematics Basic">Mathematics Basic (241)</IonSelectOption>
+
+              {/* === SCIENCES === */}
+              <IonSelectOption value="" disabled className="group-header">
+                &nbsp;&nbsp;↳ Sciences
+              </IonSelectOption>
+              <IonSelectOption value="Science">Science (086)</IonSelectOption>
+              <IonSelectOption value="Physics">Physics (042)</IonSelectOption>
+              <IonSelectOption value="Chemistry">Chemistry (043)</IonSelectOption>
+              <IonSelectOption value="Biology">Biology (044)</IonSelectOption>
+              <IonSelectOption value="CS">Computer Science (083)</IonSelectOption>
+              <IonSelectOption value="IP">Informatics Practices (065)</IonSelectOption>
+
             </IonSelect>
           </IonItem>
 
@@ -96,7 +132,9 @@ const AddQuestion: React.FC = () => {
                 <IonSelectOption value="1">1 Mark</IonSelectOption>
                 <IonSelectOption value="2">2 Marks</IonSelectOption>
                 <IonSelectOption value="3">3 Marks</IonSelectOption>
+                <IonSelectOption value="3">4 Marks</IonSelectOption>
                 <IonSelectOption value="5">5 Marks</IonSelectOption>
+                <IonSelectOption value="5">Custom Marks</IonSelectOption>
               </IonSelect>
             </IonItem>
             <IonItem style={{ width: '50%' }}>

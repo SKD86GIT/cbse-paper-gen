@@ -44,7 +44,10 @@ const App: React.FC = () => (
           
           {/* Protected Area */}
           <PrivateRoute path="/dashboard" component={Dashboard} />
+          {/* Add Question Route */}
           <PrivateRoute path="/add-question" component={AddQuestion} />
+          {/* NEW: Edit Question Route (The :id part is a placeholder) */}
+          <PrivateRoute path="/edit-question/:id" component={AddQuestion} />
           <PrivateRoute path="/question-bank" component={QuestionBank} />
           <PrivateRoute path="/generate" component={GeneratePaper} />
 

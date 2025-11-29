@@ -15,3 +15,20 @@
   font-size: 1.1rem;
   line-height: 1.6;
 }
+
+/* .ion-item {
+  width: 40%;
+} */
+
+/* Styling for the Group Headers in Popover */
+.group-header {
+  --color: #000000 !important; /* Force black text */
+  --opacity: 1 !important;      /* Remove the "disabled" gray fade */
+  font-weight: 800 !important;  /* Make it very bold */
+  background-color: #f0f0f0;    /* Light gray background bar */
+  font-size: 0.9rem;            /* Slightly smaller font for hierarchy */
+  letter-spacing: 0.05em;       /* Uppercase look */
+  text-transform: uppercase;
+  pointer-events: none;         /* Ensure it is absolutely unclickable */
+  padding-left: 10px;           /* Indent slightly */
+}
