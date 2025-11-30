@@ -1,0 +1,164 @@
+/* Full-screen gradient behind the glass card */
+/* .dashboard-bg {
+  --background: transparent;
+  background:
+    radial-gradient(circle at top left, #4f46e5 0, #1e293b 35%, #020617 100%);
+  display: flex;
+} */
+/* Animated gradient background */
+.dashboard-bg {
+  --background: transparent;
+  background:
+    radial-gradient(circle at top left, #4f46e5 0, #1e293b 35%, #020617 100%);
+  display: flex;
+  background-size: 200% 200%;
+  animation: gradientFlow 15s ease infinite;
+}
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Center the glass card */
+.dashboard-center {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glassy top toolbar */
+.glass-toolbar {
+  --background: rgba(15, 23, 42, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  color: #e5e7eb;
+}
+
+/* Main glass card */
+/* Base: nice translucent card that works everywhere */
+.glass-card {
+  position: relative;
+  width: 100%;
+  padding: 24px 20px 28px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.88); /* fallback for no-blur devices */
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Progressive enhancement: if blur is supported, make it *really* glassy */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .glass-card {
+    background: rgba(15, 23, 42, 0.55);
+    box-shadow:
+      0 20px 50px rgba(15, 23, 42, 0.9),
+      0 0 0 1px rgba(148, 163, 184, 0.18);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    backdrop-filter: blur(22px) saturate(170%);
+  }
+
+/* Subtle inner light */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.02) 40%,
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+}
+
+/* Soft glow */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 35px rgba(99, 102, 241, 0.25),
+    0 0 75px rgba(14, 165, 233, 0.15);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 30px 70px rgba(15, 23, 42, 0.85),
+    0 0 90px rgba(99, 102, 241, 0.35);
+}
+
+/* Text styles */
+.dash-title {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.dash-subtitle {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: #cbd5f5;
+}
+
+/* Buttons layout */
+.dashboard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Optional subtle styles for buttons */
+.primary-btn {
+  --background: #ef4444; /* red */
+  --background-activated: #b91c1c;
+  --border-radius: 999px;
+}
+
+.secondary-btn {
+  --border-radius: 999px;
+}
+
+.accent-btn {
+  --border-radius: 999px;
+}
+
+ion-button {
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+ion-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+ion-button:active {
+  transform: scale(0.97);
+}
+
+.glass-divider {
+  height: 1px;
+  margin: 14px 0 6px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(148, 163, 184, 0.45),
+    transparent
+  );
+}
+
+

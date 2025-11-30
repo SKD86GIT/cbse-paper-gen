@@ -19,6 +19,7 @@
  .marksDifficulty {
   display: flex;
   justify-content: space-between;
+  /* gap: '8px' */
 } 
 
 /* Styling for the Group Headers in Popover */
