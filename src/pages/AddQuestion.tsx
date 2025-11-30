@@ -30,35 +30,65 @@ const renderTextWithMath = (text: string) => {
 
 const AddQuestion: React.FC = () => {
   const { user } = useAuth();
-  const { register, handleSubmit, watch, reset } = useForm<Question>();
+  const { id } = useParams<{ id: string }>(); // Get ID from URL (if editing)
+  const history = useHistory();
+  const { register, handleSubmit, watch, reset, setValue } = useForm<Question>();
   const [showToast, setShowToast] = useState(false);
 
-  // Watch the text input to show a live preview of the Math
-  const questionText = watch("text"); 
+  const questionText = watch("text");
+
+  // Load data if we are Editing
+  useEffect(() => {
+    if (id) {
+      const loadData = async () => {
+        const question = await getQuestionById(id);
+        if (question) {
+          // FIX: We define the object and cast the types right here
+          const formattedQuestion = {
+            ...question,
+            marks: String(question.marks),
+            subject: question.subject,
+            // MAGIC FIX: Tell TypeScript "I promise this string is valid"
+            difficulty: question.difficulty as 'Easy' | 'Medium' | 'Hard'
+          };
+          
+          // Now reset the form with this formatted data
+          reset(question); 
+        }
+      };
+      loadData();
+    }
+  }, [id, reset]);
 
   const onSubmit = async (data: Question) => {
-    console.log("1. Button Clicked! Form Data:", data); // <--- Add this
+    if (!user) return;
 
-    if (!user) {
-        console.error("2. Error: User is not logged in!"); // <--- Add this
-        return;
+    let success = false;
+
+    if (id) {
+      // UPDATE existing question
+      success = await updateQuestion(id, {
+        ...data,
+        marks: Number(data.marks)
+      });
+    } else {
+      // CREATE new question
+      success = await saveQuestion({
+        ...data,
+        userId: user.uid,
+        marks: Number(data.marks),
+        createdAt: new Date()
+      });
     }
-    
-    console.log("3. User ID is:", user.uid); // <--- Add this
-    
-    // Save to Firebase
-    const success = await saveQuestion({
-      ...data,
-      userId: user.uid,
-      marks: Number(data.marks), // Convert string "5" to number 5
-      createdAt: new Date()
-    });
-
-    console.log("4. Save Question Success Status:", success); // <--- Add this
 
     if (success) {
       setShowToast(true);
-      reset(); // Clear form so they can add another
+      if (!id) reset(); // Only clear form if adding new. If editing, keep it.
+      
+      // Optional: Go back to list after edit
+      if (id) {
+        setTimeout(() => history.replace('/question-bank'), 1000);
+      }
     }
   };
 
@@ -69,7 +99,8 @@ const AddQuestion: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/dashboard" />
           </IonButtons>
-          <IonTitle>Add Question</IonTitle>
+          {/* Update Title */}
+          <IonTitle>{id ? 'Edit Question' : 'Add Question'}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -126,7 +157,7 @@ const AddQuestion: React.FC = () => {
           </IonItem>
 
           {/* Difficulty & Marks (Side by Side) */}
-          <div style={{ display: 'flex' }}>
+          <div className= 'marksDifficulty' >
             <IonItem style={{ width: '50%' }}>
               <IonSelect placeholder="Marks" {...register("marks", { required: true })}>
                 <IonSelectOption value="1">1 Mark</IonSelectOption>
@@ -163,8 +194,9 @@ const AddQuestion: React.FC = () => {
             </div>
           )}
 
+          {/* Update Save Button */}
           <IonButton expand="block" type="submit" className="ion-margin-top">
-            Save to Bank
+            {id ? 'Update Question' : 'Save to Bank'}
           </IonButton>
         </form>
 

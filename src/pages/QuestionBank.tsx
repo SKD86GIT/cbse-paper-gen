@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonBadge, IonButtons, IonBackButton, IonSpinner } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonBadge, IonButtons, IonButton, IonBackButton, IonSpinner } from '@ionic/react';
 import { db } from '../firebase/config';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import MathText from '../components/MathText'; // Importing our new component
@@ -95,14 +95,14 @@ const QuestionBank: React.FC = () => {
                 <IonButtons slot="end" style={{alignSelf: 'flex-start', marginTop: '10px', cursor: 'pointer', gap: '10px'}}>
                   
                   {/* Edit Button (We will wire this up next) */}
-                  <IonButtons color="medium">
+                  <IonButton color="medium" routerLink={`/edit-question/${q.id}`}>
                     <IonIcon icon={createOutline} />
-                  </IonButtons>
+                  </IonButton>
 
                   {/* Delete Button */}
-                  <IonButtons color="danger" onClick={() => setQuestionToDelete(q.id!)}>
+                  <IonButton color="danger" onClick={() => setQuestionToDelete(q.id!)}>
                     <IonIcon icon={trashOutline} />
-                  </IonButtons>
+                  </IonButton>
 
                 </IonButtons>
               

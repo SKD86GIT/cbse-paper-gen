@@ -16,9 +16,10 @@
   line-height: 1.6;
 }
 
-/* .ion-item {
-  width: 40%;
-} */
+ .marksDifficulty {
+  display: flex;
+  justify-content: space-between;
+} 
 
 /* Styling for the Group Headers in Popover */
 .group-header {
