@@ -1,36 +1,278 @@
+/* ===== Shared with dashboard ===== */
+
+.inner-page-bg {
+  --background: transparent;
+  background:
+    radial-gradient(circle at top left, #4f46e5 0, #1e293b 35%, #020617 100%);
+  background-size: 200% 200%;
+  animation: innerGradientFlow 16s ease infinite;
+}
+
+@keyframes innerGradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+ 100% { background-position: 0% 50%; }
+}
+
+/* Shell + safe area */
+.page-shell {
+  min-height: 100%;
+  padding:
+    calc(12px + env(safe-area-inset-top, 0px))
+    calc(12px + env(safe-area-inset-right, 0px))
+    calc(20px + env(safe-area-inset-bottom, 0px))
+    calc(12px + env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card container */
+.form-card {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 16px 22px;
+  border-radius: 20px;
+}
+
+/* Glass card base (you can share with dashboard’s .glass-card) */
+.glass-card {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.9); /* fallback */
+  box-shadow:
+    0 12px 32px rgba(15, 23, 42, 0.85),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Enhance where backdrop-filter is supported */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .glass-card {
+    background: rgba(15, 23, 42, 0.58);
+    box-shadow:
+      0 18px 45px rgba(15, 23, 42, 0.9),
+      0 0 0 1px rgba(148, 163, 184, 0.18);
+    
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    backdrop-filter: blur(22px) saturate(170%);
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.02) 40%,
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+}
+
+/* ===== Page header text ===== */
+
+.page-header {
+  margin-bottom: 12px;
+}
+
+.page-title {
+  margin: 0 0 2px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #cbd5f5;
+}
+
+/* ===== Form layout ===== */
+
+.form-section {
+  margin-top: 14px;
+}
+
+.section-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+/* Make IonItems look minimal/glassy */
+.form-item {
+  --background: transparent;
+  --border-color: transparent;
+  --inner-border-width: 0;
+  margin-bottom: 8px;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  border-radius: 12px;
+}
+
+.form-item ion-label {
+  color: #e5e7eb;
+}
+
+.helper-text {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Row for type / marks / difficulty */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-col {
+  flex: 1;
+}
+
+/* On wider screens: horizontal row */
+@media (min-width: 640px) {
+  .form-row {
+    flex-direction: row;
+  }
+}
+
+/* ===== Math preview tweaks (you already have some styles) ===== */
+
 .math-preview-box {
-  padding: 15px;
-  background: #f4f4f4;
   margin-top: 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.45);
 }
 
 .preview-label {
+  margin: 0 0 4px;
   font-size: 0.8rem;
-  color: #666;
-  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
 }
 
 .preview-content {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
- .marksDifficulty {
+/* ===== Buttons ===== */
+
+.submit-btn {
+  margin-top: 18px;
+  --border-radius: 999px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+/* Toolbar matches dashboard */
+.glass-toolbar {
+  --background: rgba(15, 23, 42, 0.9);
+  
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  color: #e5e7eb;
+}
+
+/* Slight lift on hover (desktop) */
+@media (hover: hover) {
+  .glass-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 22px 55px rgba(15, 23, 42, 0.95),
+      0 0 90px rgba(99, 102, 241, 0.3);
+  }
+}
+/* .marksDifficulty {
   display: flex;
   justify-content: space-between;
-  /* gap: '8px' */
-} 
+  gap: '8px'
+  } */
 
-/* Styling for the Group Headers in Popover */
-.group-header {
-  --color: #000000 !important; /* Force black text */
-  --opacity: 1 !important;      /* Remove the "disabled" gray fade */
-  font-weight: 800 !important;  /* Make it very bold */
-  background-color: #f0f0f0;    /* Light gray background bar */
-  font-size: 0.9rem;            /* Slightly smaller font for hierarchy */
-  letter-spacing: 0.05em;       /* Uppercase look */
-  text-transform: uppercase;
-  pointer-events: none;         /* Ensure it is absolutely unclickable */
-  padding-left: 10px;           /* Indent slightly */
+  /* Styling for the Group Headers in Popover */
+    /*.group-header {
+      --color: #000000 !important; /* Force black text */
+      /*--opacity: 1 !important;      /* Remove the "disabled" gray fade */
+      /*font-weight: 800 !important;  /* Make it very bold */
+      /*background-color: #f0f0f0;    /* Light gray background bar */
+      /*font-size: 0.9rem;            /* Slightly smaller font for hierarchy */
+      /*letter-spacing: 0.05em;       /* Uppercase look */
+      /*text-transform: uppercase;
+      pointer-events: none;         /* Ensure it is absolutely unclickable */
+      /*padding-left: 10px;           /* Indent slightly */
+    /*} */
+
+    /* ===== Ionic form fields on glass background ===== */
+
+.form-item {
+  --background: transparent;
+  --color: #e5e7eb;                 /* input text */
+  --placeholder-color: #9ca3af;     /* placeholder */
+  --border-color: rgba(148, 163, 184, 0.45);
+  --highlight-color-focused: #60a5fa;
+  --highlight-color-valid: #22c55e;
+  --highlight-color-invalid: #ef4444;
+}
+
+/* Force labels to be visible (very important) */
+.form-item ion-label {
+  color: #e5e7eb !important;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+/* Ensure input & textarea text is visible */
+.form-item ion-input,
+.form-item ion-textarea,
+.form-item ion-select {
+  color: #e5e7eb;
+  --color: #e5e7eb;
+}
+
+/* Make select dropdown arrows visible */
+.form-item ion-select::part(icon) {
+  color: #cbd5f5;
+  opacity: 0.9;
+}
+
+/* Make underline/border visible (Ionic 6+) */
+.form-item::part(native) {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.form-item.item-has-focus::part(native) {
+  border-bottom: 2px solid #60a5fa;
+}
+
+/* Make section headers readable */
+.section-label {
+  color: #9ca3af;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+/* Improve contrast for math preview */
+.preview-content {
+  color: #e5e7eb;
 }
