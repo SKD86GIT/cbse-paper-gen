@@ -19,6 +19,9 @@ import '@ionic/react/css/typography.css';
 
 /* Theme variables */
 import './theme/variables.css';
+// App.tsx or main.tsx
+import './theme/inner-page.css';
+
 
 setupIonicReact();
 

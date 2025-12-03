@@ -175,6 +175,7 @@ const AddQuestion: React.FC = () => {
         <div className="page-shell">
           <div className="glass-card form-card">
             <div className="page-header">
+              <div className="page-tag">Question Editor</div>
               <h2 className="page-title">
                 {id ? 'Edit Question' : 'Create New Question'}
               </h2>
